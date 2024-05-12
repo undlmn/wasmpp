@@ -1,0 +1,24 @@
+{
+  "name": "wasmpp",
+  "version": "0.1.0",
+  "author": "undlmn",
+  "description": "WebAssembly Text Preprocessor",
+  "keywords": [
+    "wasm",
+    "webassembly",
+    "preprocessor"
+  ],
+  "homepage": "https://github.com/undlmn/wasmpp#readme",
+  "repository": "github:undlmn/wasmpp",
+  "license": "MIT",
+  "type": "module",
+  "exports": "./wasmpp.js",
+  "bin": "./wasmpp-cli.js",
+  "files": [
+    "wasmpp.js",
+    "wasmpp-cli.js"
+  ],
+  "scripts": {
+    "test": "node wasmpp-cli.js example/src/main.wat -o example/build/app.wat --root=example && wat2wasm example/build/app.wat -o example/build/app.wasm && node example/build/run.js"
+  }
+}
