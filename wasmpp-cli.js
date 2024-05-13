@@ -12,7 +12,7 @@ import { argv, exit, stdout } from "node:process";
 import { preprocessor } from "./wasmpp.js";
 
 const { name, version, description } = JSON.parse(
-  readFileSync("./package.json")
+  readFileSync(new URL("./package.json", import.meta.url))
 );
 
 const USAGE = `
