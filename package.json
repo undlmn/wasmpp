@@ -1,12 +1,13 @@
 {
   "name": "wasmpp",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "author": "undlmn",
   "description": "WebAssembly Text Preprocessor",
   "keywords": [
+    "macro",
+    "preprocessor",
     "wasm",
-    "webassembly",
-    "preprocessor"
+    "webassembly"
   ],
   "homepage": "https://github.com/undlmn/wasmpp#readme",
   "repository": "github:undlmn/wasmpp",
