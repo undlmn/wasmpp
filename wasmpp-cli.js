@@ -27,13 +27,15 @@ Options:
   -o FILE, --out=FILE  Write output to FILE
   -r DIR, --root=DIR   Root directory for resolving absolute paths of includes
   -D <macro>=<value>   Define <macro> to <value> (or empty string if <value> omitted)
+  --no-comments        Remove all comments
+  --compress           Remove all unnecessary spaces
 `;
 // How to write Usage correctly: http://docopt.org
 // And extra bedtime reading: https://clig.dev
 
 try {
-  const { pathname, root, out, definitions } = parseArgs();
-  const result = preprocessor({ pathname, root, definitions });
+  const { pathname, out, root, macros, comments, spaces } = parseArgs();
+  const result = preprocessor({ pathname, root, macros, comments, spaces });
 
   if (out) {
     writeFileSync(out, result);
@@ -49,16 +51,20 @@ try {
  * Parsing command line arguments
  * @returns {{
  *   pathname: string,
- *   root: string,
  *   out: (string | null),
- *   definitions: Map<string, string>
+ *   root: string,
+ *   macros: string[],
+ *   comments: boolean,
+ *   spaces: boolean,
  * }}
  */
 function parseArgs() {
   let pathname = "";
-  let root = "/";
   let out = null;
-  const definitions = new Map();
+  let root = "/";
+  const macros = [];
+  let comments = true;
+  let spaces = true;
 
   try {
     for (let i = 2; i < argv.length; i++) {
@@ -96,9 +102,16 @@ function parseArgs() {
         if (i + 1 == argv.length) {
           throw new Error("The definition of the macro is not specified");
         }
-        const [key, value = "1"] = argv[i + 1].split(/=(.*)/);
-        definitions.set(key, value);
+        macros.push(argv[i + 1].replace("=", " "));
         i += 1;
+        continue;
+      }
+      if (argv[i] == "--no-comments") {
+        comments = false;
+        continue;
+      }
+      if (argv[i] == "--compress") {
+        spaces = false;
         continue;
       }
       if (argv[i].startsWith("-")) {
@@ -129,5 +142,5 @@ function parseArgs() {
   root = resolve(root);
   out = out && resolve(out);
 
-  return { pathname, root, out, definitions };
+  return { pathname, out, root, macros, comments, spaces };
 }

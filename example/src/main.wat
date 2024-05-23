@@ -8,6 +8,7 @@
   (#define MY_F32CONST f32.const NUM (;With comment;))
   (#define NUM -29)
   (#define DATA_START 64)
+  (#define (DIFF a b) (#eval a - b)) ;; function-like macro
 
   (#define NOPS
     nop nop
@@ -23,7 +24,7 @@
     f32.const NUM
     MY_F32CONST
     f32.add
-    f32.const (#eval 1 + (#defined FF) + (#size /src/pic.png) / 2)
+    f32.const (#eval (DIFF 132 131) + (#defined FF) + (#size /src/pic.png) / 2)
     f32.add
     ( ;; Conditional compilation
     #ifdef AWESOME_LIB

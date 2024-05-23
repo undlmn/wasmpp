@@ -1,6 +1,6 @@
 {
   "name": "wasmpp",
-  "version": "0.1.1",
+  "version": "1.0.0",
   "author": "undlmn",
   "description": "WebAssembly Text Preprocessor",
   "keywords": [
@@ -16,10 +16,18 @@
   "exports": "./wasmpp.js",
   "bin": "./wasmpp-cli.js",
   "files": [
-    "wasmpp.js",
-    "wasmpp-cli.js"
+    "directives.js",
+    "jail-eval.js",
+    "s-expression.js",
+    "wasmpp-cli.js",
+    "wasmpp.js"
   ],
   "scripts": {
-    "test": "node wasmpp-cli.js example/src/main.wat -o example/build/app.wat --root=example && wat2wasm example/build/app.wat -o example/build/app.wasm && node example/build/run.js"
+    "test": "mocha spec",
+    "start": "node wasmpp-cli.js example/src/main.wat -o example/build/app.wat --root=example && wat2wasm example/build/app.wat -o example/build/app.wasm && node example/build/run.js"
+  },
+  "devDependencies": {
+    "chai": "^5.1.1",
+    "mocha": "^10.4.0"
   }
 }
