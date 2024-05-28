@@ -199,7 +199,12 @@ export function processList(list, args) {
                 }
                 const replaceArgs = new Map();
                 argsIds.forEach((id, i) => replaceArgs.set(id, argsValues[i]));
-                replace(processList(replacement?.copy() || null, replaceArgs));
+                replace(
+                  processList(
+                    replacement?.copy() ?? null,
+                    replaceArgs
+                  )?.trim() ?? null
+                );
                 continue;
               } catch (err) {
                 throw new Error(`Call macro '${id.x}' >> ${err.message}`);

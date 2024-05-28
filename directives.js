@@ -66,7 +66,7 @@ export default {
       throw new Error("There is no identifier");
     }
     return objMacros.has(id.x) || funcMacros.has(id.x)
-      ? id.y && processList(id.y.trim(), args)
+      ? processList(id.y, args)?.trim() ?? null
       : cons(`(;#ifdef ${id.x} // false;)`);
   },
 
@@ -80,7 +80,7 @@ export default {
     }
     return objMacros.has(id.x) || funcMacros.has(id.x)
       ? cons(`(;#ifndef ${id.x} // false;)`)
-      : id.y && processList(id.y.trim(), args);
+      : processList(id.y, args)?.trim() ?? null;
   },
 
   /**
@@ -94,7 +94,7 @@ export default {
     const x =
       processList(expr.x.trim(), args)?.toString({ comments: false }) ?? "";
     return jailEval(x)
-      ? expr.y && processList(expr.y.trim(), args)
+      ? processList(expr.y, args)?.trim() ?? null
       : cons(`(;#if (${x}) // false;)`);
   },
 
@@ -104,12 +104,8 @@ export default {
   ["#eval"](list, args) {
     return parse(
       String(
-        jailEval(
-          (list &&
-            processList(list.trim(), args)?.toString({ comments: false })) ??
-            ""
-        )
-      )
+        jailEval(processList(list, args)?.toString({ comments: false }) ?? "")
+      ).trim()
     );
   },
 
